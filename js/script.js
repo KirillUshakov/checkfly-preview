@@ -3353,6 +3353,9 @@ function getIcon (icon = '') {
     </div>
   `;
 }
+function morph (count, array = ['пассажир', 'пассажира', 'пассажиров']) {
+  return array[(count % 100 > 4 && count % 100 < 20) ? 2 : [2, 0, 1, 1, 1, 2][(count % 10 < 5) ? count % 10 : 5]];
+}
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -4036,9 +4039,10 @@ initDatepicker();
 
   // Functions
   // -- Update
-  const updateLabelAndInput = (idPrefix = '', value) => {
+  const updateLabelAndInput = (idPrefix = '', value, currencyVal = '') => {
     const label = form.querySelector('#' + idPrefix + '-label');
     const input = form.querySelector('#' + idPrefix + '-input');
+    const curency = form.querySelector('#' + idPrefix + '-currency');
 
     if (label) {
       label.innerHTML = value;
@@ -4047,12 +4051,16 @@ initDatepicker();
     if (input) {
       input.value = value;
     }
+
+    if (curency) {
+      curency.innerHTML = currencyVal;
+    }
   }
   const updateResultCount = (num) => {
     updateLabelAndInput('result-price', num);
   }
   const updatePassengerCount = (num) => {
-    updateLabelAndInput('passenger-count', num);
+    updateLabelAndInput('passenger-count', num, morph(num));
   }
   // -- Handlers
   const formInputsUpdateHandler = () => {
